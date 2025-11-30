@@ -22,7 +22,7 @@ export default async function BlogListPage() {
     <div className="min-h-screen bg-gray-100 py-10 flex justify-center">
       <div className="w-full max-w-4xl rounded-2xl bg-white shadow-md md:px-10 px-5 py-10">
         <div className="flex justify-between items-center mb-8 border-b-1 pb-5">
-          <h1 className="md:text-3xl text-2xl font-bold mb-0">Tech Blogs</h1>
+          <h1 className="md:text-3xl text-2xl font-bold mb-0 text-gray-900">Tech Blogs</h1>
           <div>
             <Link
               href={"/blog/add"}
