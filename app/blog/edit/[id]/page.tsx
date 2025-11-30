@@ -104,6 +104,7 @@ export default function EditBlogPage({ params }: any) {
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [blogId, setBlogId] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
   // Load blog by ID
@@ -135,6 +136,7 @@ export default function EditBlogPage({ params }: any) {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const fd = new FormData();
       fd.append("title", form.title);
       fd.append("subTitle", form.description);
@@ -162,6 +164,8 @@ export default function EditBlogPage({ params }: any) {
     } catch (error: any) {
       console.log(error);
       swal("", error.message || "Something went wrong", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -215,9 +219,10 @@ export default function EditBlogPage({ params }: any) {
 
           <button
             type="submit"
+            disabled={loading}
             className="mt-4 bg-blue-600 cursor-pointer text-white py-3 rounded-xl hover:bg-blue-700 transition-all font-medium"
           >
-            Publish Blog
+            {loading ? "Wait! Updating Blog.." : "Update Blog"}
           </button>
         </div>
       </form>

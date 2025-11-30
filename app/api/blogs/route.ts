@@ -1,17 +1,14 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Blog from "@/models/Blog"; 
-import path from "path";
-import fs from "fs";
+import { v2 as cloudinary } from "cloudinary";
 
-export async function GET() {
-  await connectDB();
-  const blogs = await Blog.find().sort({ createdAt: -1 });
-  return NextResponse.json({
-    success: true,
-    data: blogs
-  });
-}
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function POST(req: Request) {
   try {
@@ -32,35 +29,51 @@ export async function POST(req: Request) {
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Save to /public/uploads
-    const uploadDir = path.join(process.cwd(), "public/uploads");
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
+    // Upload to Cloudinary
+    const uploaded = await cloudinary.uploader.upload_stream(
+      { folder: "tech-blogs" },
+      (error, result) => {
+        if (error) throw error;
+        return result;
+      }
+    );
 
-    const fileName = Date.now() + "-" + file.name.replace(/\s+/g, "_");
-    const filePath = path.join(uploadDir, fileName);
+    // Using upload with stream helper
+    const uploadPromise = new Promise<string>((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        { folder: "tech-blogs" },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result!.secure_url);
+        }
+      );
+      stream.end(buffer);
+    });
 
-    fs.writeFileSync(filePath, buffer);
-
-    const imageUrl = "/uploads/" + fileName;
+    const imageUrl = await uploadPromise;
 
     const blog = await Blog.create({
       title,
       subTitle,
       tags,
       imageUrl,
-      slug: title.replaceAll(' ', '-').toLowerCase()
+      slug: title.replaceAll(" ", "-").toLowerCase(),
     });
 
-    return NextResponse.json({
-      success: true,
-      data: blog
-    });
+    return NextResponse.json({ success: true, data: blog });
   } catch (error: any) {
     return NextResponse.json({
       success: false,
-      error: error.message || "Something went wrong"
+      error: error.message || "Something went wrong",
     });
   }
+}
+
+export async function GET() {
+  await connectDB();
+  const blogs = await Blog.find().sort({ createdAt: -1 });
+  return NextResponse.json({
+    success: true,
+    data: blogs
+  });
 }

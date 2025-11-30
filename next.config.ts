@@ -14,6 +14,12 @@ const nextConfig: NextConfig = {
         hostname: "tech-blogs.vercel.app",
         pathname: "/uploads/**",
       },
+      // Cloudinary (production)
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+        pathname: "/**",
+      },
     ],
   },
 };
