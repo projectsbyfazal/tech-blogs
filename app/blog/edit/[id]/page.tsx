@@ -175,7 +175,7 @@ export default function EditBlogPage({ params }: any) {
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-2xl "
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Add New Blog</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-900">Update Blog</h2>
 
         <div className="flex flex-col gap-4">
           <input
@@ -185,7 +185,7 @@ export default function EditBlogPage({ params }: any) {
             value={form.title}
             onChange={handleChange}
             required
-            className="px-4 py-3 text-sm border border-blue-950 border-b-blue-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="px-4 py-3 text-sm border border-blue-950 text-gray-900 border-b-blue-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
 
           <textarea
@@ -195,14 +195,14 @@ export default function EditBlogPage({ params }: any) {
             onChange={handleChange}
             rows={4}
             required
-            className="px-4 py-3 text-sm border border-blue-950 border-b-blue-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="px-4 py-3 text-sm border border-blue-950 text-gray-900 border-b-blue-400 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
 
           <input
             type="file"
             name="image"
             onChange={handleFileChange}
-            className="px-4 py-3 text-sm border border-blue-950 border-b-blue-400 rounded-xl"
+            className="px-4 py-3 text-sm border border-blue-950 text-gray-900 border-b-blue-400 rounded-xl"
             required={!imageUrl}
           />
           <span className="text-[10px] text-green-900">{imageUrl}</span>
@@ -214,7 +214,7 @@ export default function EditBlogPage({ params }: any) {
             value={form.tags}
             onChange={handleChange}
             required
-            className="px-4 py-3 text-sm border border-blue-950 border-b-blue-400 rounded-xl"
+            className="px-4 py-3 text-sm border border-blue-950 text-gray-900 border-b-blue-400 rounded-xl"
           />
 
           <button
