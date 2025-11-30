@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { BlogPostCard } from "./(components)/BlogPostCard";
-import { APP_URL } from "@/lib/config";
+import { NEXT_PUBLIC_APP_URL } from "@/lib/config";
 
 interface BlogType {
   __v: number;
@@ -16,9 +16,7 @@ interface BlogType {
 
 // Blog Listing Page
 export default async function BlogListPage() {
-  const response = await fetch(`${APP_URL}/api/blogs`, {
-    method: "GET",
-  });
+  const response = await fetch(`${NEXT_PUBLIC_APP_URL}/api/blogs`, { cache: "no-store" });
   const blogs = await response.json();
   return (
     <div className="min-h-screen bg-gray-100 py-10 flex justify-center">
