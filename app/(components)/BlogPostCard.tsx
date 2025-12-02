@@ -29,7 +29,12 @@ export const BlogPostCard = ({ blog }: any) => {
           ))}
         </div>
         <div className="md:mt-0 mt-4">
-          <Link href={`/blog/edit/${blog._id}`} className="border border-blue-300 text-gray-900 px-4 py-1 rounded-2xl hover:bg-blue-100">Edit</Link>
+          <Link
+            href={`/blog/edit/${blog._id}`}
+            className="border border-blue-300 text-gray-900 px-4 py-1 rounded-2xl hover:bg-blue-100"
+          >
+            Edit
+          </Link>
         </div>
       </div>
     </div>
